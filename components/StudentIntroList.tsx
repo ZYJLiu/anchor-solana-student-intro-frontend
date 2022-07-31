@@ -2,8 +2,6 @@ import { Card } from "./Card"
 import { FC, useEffect, useState } from "react"
 import { Button, Center, HStack, Input, Spacer } from "@chakra-ui/react"
 import { useWorkspace } from "../workspace"
-import { useWallet } from "@solana/wallet-adapter-react"
-import * as anchor from "@project-serum/anchor"
 
 export const StudentIntroList: FC = () => {
   const { program } = useWorkspace()
@@ -11,7 +9,6 @@ export const StudentIntroList: FC = () => {
   const [page, setPage] = useState(1)
   const [search, setSearch] = useState("")
   const [result, setResult] = useState<any | null>(null)
-  const wallet = useWallet()
 
   useEffect(() => {
     const fetchAccounts = async () => {

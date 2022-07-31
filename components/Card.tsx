@@ -1,4 +1,4 @@
-import { Box, HStack, Spacer, Stack, Text } from "@chakra-ui/react"
+import { Box, Stack, Text } from "@chakra-ui/react"
 import { FC } from "react"
 
 export interface CardProps {
