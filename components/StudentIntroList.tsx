@@ -40,7 +40,7 @@ export const StudentIntroList: FC = () => {
 
   useEffect(() => {
     if (studentIntros) {
-      const filtered = studentIntros.slice((page - 1) * 1, page * 1)
+      const filtered = studentIntros.slice((page - 1) * 3, page * 3)
       console.log(filtered)
       setResult(filtered)
     }
@@ -94,7 +94,7 @@ export const StudentIntroList: FC = () => {
               <Button onClick={() => setPage(page - 1)}>Previous</Button>
             )}
             <Spacer />
-            {studentIntros.length > page * 1 && (
+            {studentIntros.length > page * 3 && (
               <Button onClick={() => setPage(page + 1)}>Next</Button>
             )}
           </HStack>

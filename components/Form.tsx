@@ -7,6 +7,7 @@ import {
   FormLabel,
   Input,
   Textarea,
+  Switch,
 } from "@chakra-ui/react"
 import * as anchor from "@project-serum/anchor"
 import { getAssociatedTokenAddress } from "@solana/spl-token"
@@ -16,6 +17,7 @@ import { useWorkspace } from "../context/Anchor"
 export const Form: FC = () => {
   const [name, setName] = useState("")
   const [message, setMessage] = useState("")
+  const [toggle, setToggle] = useState(true)
 
   const { connection } = useConnection()
   const { publicKey, sendTransaction } = useWallet()
@@ -38,17 +40,22 @@ export const Form: FC = () => {
     const tokenAddress = await getAssociatedTokenAddress(mintPDA, publicKey)
 
     const transaction = new anchor.web3.Transaction()
+    if (toggle) {
+      const instruction = await program.methods
+        .addStudentIntro(name, message)
+        .accounts({
+          tokenAccount: tokenAddress,
+        })
+        .instruction()
 
-    const instruction = await program.methods
-      .addStudentIntro(name, message)
-      .accounts({
-        tokenAccount: tokenAddress,
-        // student: publicKey,
-      })
-      .instruction()
+      transaction.add(instruction)
+    } else {
+      const instruction = await program.methods
+        .updateStudentIntro(name, message)
+        .instruction()
 
-    transaction.add(instruction)
-
+      transaction.add(instruction)
+    }
     try {
       let txid = await sendTransaction(transaction, connection)
       alert(
@@ -89,6 +96,15 @@ export const Form: FC = () => {
             id="message"
             color="gray.400"
             onChange={(event) => setMessage(event.currentTarget.value)}
+          />
+        </FormControl>
+        <FormControl display="center" alignItems="center">
+          <FormLabel color="gray.100" mt={2}>
+            Update
+          </FormLabel>
+          <Switch
+            id="update"
+            onChange={(event) => setToggle((prevCheck) => !prevCheck)}
           />
         </FormControl>
         <Button width="full" mt={4} type="submit">

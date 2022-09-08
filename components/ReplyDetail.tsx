@@ -71,7 +71,6 @@ export const ReplyDetail: FC<ReplyDetailProps> = ({
         studentIntro: studentIntroPda,
         replyCounter: replyCounterPda,
         tokenAccount: tokenAddress,
-        // student: publicKey,
       })
       .instruction()
 

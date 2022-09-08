@@ -40,9 +40,9 @@ export const ReplyList: FC<ReplyListProps> = ({
         //   a.account.count > b.account.count ? 1 : -1
         // )
         setReplys(replys)
-        // const filtered = sort.slice((page - 1) * 3, page * 3)
-        // console.log(filtered)
-        setResult(replys)
+        const filtered = replys.slice((page - 1) * 3, page * 3)
+        console.log(filtered)
+        setResult(filtered)
       }
     }
     fetch()
