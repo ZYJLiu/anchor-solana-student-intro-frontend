@@ -9,8 +9,9 @@ import {
   Textarea,
 } from "@chakra-ui/react"
 import * as anchor from "@project-serum/anchor"
+import { getAssociatedTokenAddress } from "@solana/spl-token"
 import { useConnection, useWallet } from "@solana/wallet-adapter-react"
-import { useWorkspace } from "../workspace"
+import { useWorkspace } from "../context/Anchor"
 
 export const Form: FC = () => {
   const [name, setName] = useState("")
@@ -29,22 +30,21 @@ export const Form: FC = () => {
       return
     }
 
-    const [studentIntroPda, bump] =
-      await anchor.web3.PublicKey.findProgramAddress(
-        [publicKey.toBuffer()],
-        program.programId
-      )
+    const [mintPDA] = await anchor.web3.PublicKey.findProgramAddress(
+      [Buffer.from("mint")],
+      program.programId
+    )
+
+    const tokenAddress = await getAssociatedTokenAddress(mintPDA, publicKey)
 
     const transaction = new anchor.web3.Transaction()
 
     const instruction = await program.methods
       .addStudentIntro(name, message)
       .accounts({
-        studentIntro: studentIntroPda,
-        student: publicKey,
-        systemProgram: anchor.web3.SystemProgram.programId,
+        tokenAccount: tokenAddress,
+        // student: publicKey,
       })
-      .signers([])
       .instruction()
 
     transaction.add(instruction)

@@ -1,7 +1,9 @@
 import { Card } from "./Card"
 import { FC, useEffect, useState } from "react"
 import { Button, Center, HStack, Input, Spacer } from "@chakra-ui/react"
-import { useWorkspace } from "../workspace"
+import { useDisclosure } from "@chakra-ui/react"
+import { useWorkspace } from "../context/Anchor"
+import { ReplyDetail } from "./ReplyDetail"
 
 export const StudentIntroList: FC = () => {
   const { program } = useWorkspace()
@@ -9,6 +11,8 @@ export const StudentIntroList: FC = () => {
   const [page, setPage] = useState(1)
   const [search, setSearch] = useState("")
   const [result, setResult] = useState<any | null>(null)
+  const [selected, setSelected] = useState<any | null>(null)
+  const { isOpen, onOpen, onClose } = useDisclosure()
 
   useEffect(() => {
     const fetchAccounts = async () => {
@@ -42,6 +46,11 @@ export const StudentIntroList: FC = () => {
     }
   }, [page, studentIntros])
 
+  const handleSelected = (data: any) => {
+    setSelected(data)
+    onOpen()
+  }
+
   return (
     <div>
       <Center>
@@ -55,11 +64,26 @@ export const StudentIntroList: FC = () => {
           mb={2}
         />
       </Center>
+      {selected && (
+        <ReplyDetail
+          isOpen={isOpen}
+          onClose={onClose}
+          studentIntro={selected}
+        />
+      )}
       {result && (
         <div>
           {Object.keys(result).map((key) => {
             const data = result[key as unknown as number]
-            return <Card key={key} studentIntro={data} />
+            return (
+              <Card
+                key={key}
+                studentIntro={data}
+                onClick={() => {
+                  handleSelected(data)
+                }}
+              />
+            )
           })}
         </div>
       )}

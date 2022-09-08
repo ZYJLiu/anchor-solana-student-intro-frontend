@@ -5,14 +5,13 @@ import {
   Idl,
   setProvider,
 } from "@project-serum/anchor"
-import idl from "./idl.json"
 import { IDL, StudentIntro } from "./student_intro"
 import { Connection, PublicKey } from "@solana/web3.js"
 import { useAnchorWallet, useConnection } from "@solana/wallet-adapter-react"
 import MockWallet from "./MockWallet"
 
 const WorkspaceContext = createContext({})
-const programId = new PublicKey("3v1zmkiVq3FSk4tnCiqRsCwynYr5gEnxBsK6H1Rmdb6n")
+const programId = new PublicKey("7HHxzxm7hsdA5HCBr3ctMv63YKBLnoEr8XL7MCdeAJDc")
 
 interface WorkSpace {
   connection?: Connection
