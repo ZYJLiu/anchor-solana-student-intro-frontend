@@ -3,6 +3,7 @@ import {
   ConnectionProvider,
   WalletProvider,
 } from "@solana/wallet-adapter-react"
+import { clusterApiUrl } from "@solana/web3.js"
 import { WalletModalProvider } from "@solana/wallet-adapter-react-ui"
 import * as walletAdapterWallets from "@solana/wallet-adapter-wallets"
 import { AutoConnectProvider, useAutoConnect } from "./AutoConnectProvider"
@@ -10,8 +11,8 @@ require("@solana/wallet-adapter-react-ui/styles.css")
 
 const WalletContextProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const { autoConnect } = useAutoConnect()
-  // const endpoint = web3.clusterApiUrl("devnet")
-  const endpoint = "http://localhost:8899"
+  const endpoint = clusterApiUrl("devnet")
+  // const endpoint = "http://localhost:8899"
   // const endpoint = "https://devnet.genesysgo.net/"
   const wallets = [
     new walletAdapterWallets.PhantomWalletAdapter(),
